@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int maxCount = 0, currentCount = 0;
+
+        // Traverse the binary array
+        for (int num : nums) {
+            if (num == 1) {
+                // If the element is 1, increase the current count
+                currentCount++;
+                // Update maxCount if currentCount is greater
+                maxCount = max(maxCount, currentCount);
+            } else {
+                // If the element is 0, reset currentCount to 0
+                currentCount = 0;
+            }
+        }
+        
+        return maxCount;
+
+    }
+};
