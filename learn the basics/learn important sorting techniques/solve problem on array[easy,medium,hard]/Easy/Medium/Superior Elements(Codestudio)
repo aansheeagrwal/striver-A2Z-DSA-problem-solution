@@ -1,0 +1,17 @@
+vector<int> superiorElements(vector<int>&a) {
+    vector<int> ans;
+    int maxi = INT_MIN;
+    int n = a.size();
+    //o(N)
+    for(int i = n-1;i>=0;i--){
+        if(a[i] > maxi){
+            ans.push_back(a[i]);
+        }
+        // keep track of right max
+        maxi = max(maxi, a[i]);
+
+    }
+    // o[N log N]
+    sort(ans.begin(), ans.end());
+    return ans;
+}
