@@ -1,0 +1,47 @@
+#include <vector>
+#include <algorithm> // Include algorithm header for count function
+
+class Solution {
+public:
+    std::vector<int> majorityElement(std::vector<int>& nums) {
+        int count1 = 0, count2 = 0;     // Initialize counters for two potential majority elements
+        int candidate1 = 0, candidate2 = 1; // Initialize holders for two potential majority elements
+      
+        // Use Boyer-Moore Voting Algorithm to find potential majority elements
+        for (int num : nums) {
+            if (num == candidate1) {
+                // If the current element is the same as candidate1, increment count1
+                ++count1;
+            } else if (num == candidate2) {
+                // If the current element is the same as candidate2, increment count2
+                ++count2;
+            } else if (count1 == 0) {
+                // If count1 is 0, replace candidate1 with the current element and reset count1
+                candidate1 = num;
+                count1 = 1;
+            } else if (count2 == 0) {
+                // If count2 is 0, replace candidate2 with the current element and reset count2
+                candidate2 = num;
+                count2 = 1;
+            } else {
+                // If the current element is not equal to either candidate and both counts are non-zero, decrement both counts
+                --count1;
+                --count2;
+            }
+        }
+      
+        std::vector<int> result; // Initialize an empty result vector
+        // Check if the candidates are indeed majority elements
+        if (std::count(nums.begin(), nums.end(), candidate1) > nums.size() / 3) {
+            // If candidate1's occurrence is more than a third of the array length, add to the result
+            result.push_back(candidate1);
+        }
+        if (candidate1 != candidate2 && std::count(nums.begin(), nums.end(), candidate2) > nums.size() / 3) {
+            // If candidate2 is different from candidate1 and occurs more than a third of the array length, add to the result
+            // Check candidate1 != candidate2 to avoid counting the same element twice in case of duplicates
+            result.push_back(candidate2);
+        }
+      
+        return result; // Return the final result
+    }
+};
