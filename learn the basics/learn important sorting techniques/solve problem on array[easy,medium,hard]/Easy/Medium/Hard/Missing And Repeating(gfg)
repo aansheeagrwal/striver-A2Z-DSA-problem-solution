@@ -1,0 +1,28 @@
+class Solution {
+  public:
+    vector<int> findTwoElement(vector<int>& arr) {
+        long long n = arr.size();
+        
+        
+        long long S_n = (n * (n + 1)) / 2;
+        long long S_sq_n = (n * (n + 1) * (2 * n + 1)) / 6;
+        
+        
+        long long S_actual = 0, S_sq_actual = 0;
+        for (int num : arr) {
+            S_actual += num;
+            S_sq_actual += (long long)num * num;
+        }
+        
+        
+        
+        long long diff = S_actual - S_n;  
+        long long sum_diff = (S_sq_actual - S_sq_n) / diff; 
+        
+        long long repeating = (diff + sum_diff) / 2;
+        long long missing = sum_diff - repeating;
+        
+        return { (int)repeating, (int)missing };
+
+    }
+};
