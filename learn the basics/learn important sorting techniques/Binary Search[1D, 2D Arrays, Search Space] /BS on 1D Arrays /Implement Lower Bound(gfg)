@@ -1,0 +1,21 @@
+// Floor in a Sorted Array(gfg)
+class Solution {
+public:
+    int findFloor(vector<int>& arr, int k) {
+        int low = 0, high = arr.size() - 1;
+        int floor_index = -1; // Default value if no floor exists
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (arr[mid] <= k) {
+                floor_index = mid;  // Update floor index
+                low = mid + 1;  // Move right to find a larger valid element
+            } else {
+                high = mid - 1;  // Move left
+            }
+        }
+
+        return floor_index;
+    }
+};
