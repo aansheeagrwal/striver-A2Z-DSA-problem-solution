@@ -1,0 +1,24 @@
+// Ceil The Floor(gfg)
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+class Solution {
+public:
+    vector<int> getFloorAndCeil(int x, vector<int>& arr) {
+        int floor_val = -1, ceil_val = -1;
+
+        for (int num : arr) {
+            if (num <= x) {
+                floor_val = max(floor_val, num);
+            }
+            if (num >= x) {
+                if (ceil_val == -1) {
+                    ceil_val = num;
+                } else {
+                    ceil_val = min(ceil_val, num);
+                }
+            }
+        }
+
+        return {floor_val, ceil_val};
+    }
+};
