@@ -1,1 +1,21 @@
+class Solution {
+  public:
+    int floorSqrt(int n) {
+        int low = 1, high = n, ans = 0;
 
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            long long square = (long long) mid * mid;
+            
+            if (square == n) return mid;
+            else if (square < n) {
+                ans = mid; 
+                low = mid + 1; // Move right
+            } else {
+                high = mid - 1; // Move left
+            }
+        }
+        
+        return ans;
+    }
+};
