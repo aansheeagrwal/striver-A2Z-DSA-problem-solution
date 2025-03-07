@@ -1,1 +1,30 @@
+class Solution {
+public:
+    // Method to remove the outermost parentheses in each set of valid parentheses.
+    string removeOuterParentheses(string s) {
+        string result; 
+        int depth = 0; 
 
+        // Iterate over each character in the input string.
+        for (char& c : s) {
+            if (c == '(') {
+                // If the character is an opening parenthesis, increase the depth.
+                ++depth;
+                // Only add the opening parenthesis to the result if the depth is more than 1,
+                // because the first opening parenthesis is part of the outermost parentheses.
+                if (depth > 1) {
+                    result.push_back(c);
+                }
+            } else {
+                // If the character is a closing parenthesis, decrease the depth first.
+                --depth;
+                // Only add the closing parenthesis to the result if the depth is not zero after decrementing,
+                // because the last closing parenthesis corresponds to the opening one that wasn't added.
+                if (depth > 0) {
+                    result.push_back(c);
+                }
+            }
+        }
+        return result; // Return the final string with outermost parentheses removed.
+    }
+};
