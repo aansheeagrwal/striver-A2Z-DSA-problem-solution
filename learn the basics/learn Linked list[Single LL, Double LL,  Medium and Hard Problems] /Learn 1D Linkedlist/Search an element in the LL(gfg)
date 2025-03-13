@@ -1,1 +1,14 @@
-
+class Solution {
+  public:
+    // Function to count nodes of a linked list.
+    bool searchKey(int n, Node* head, int key) {
+        Node*temp=head;
+        while(temp!=nullptr){
+            if(key==temp->data){
+                return true;
+            }
+            temp=temp->next;
+        }
+        return false;
+    }
+};
