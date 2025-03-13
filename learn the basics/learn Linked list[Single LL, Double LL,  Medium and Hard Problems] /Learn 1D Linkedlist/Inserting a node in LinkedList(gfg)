@@ -1,1 +1,15 @@
-
+class Solution {
+  public:
+    Node *insertAtEnd(Node *head, int x) {
+        Node*temp=new Node(x);
+        Node *temp1=head;
+        if (head == nullptr) {
+            return temp;
+        }
+        while(temp1->next!=nullptr){
+            temp1=temp1->next;
+        }
+        temp1->next=temp;
+        return head;
+    }
+};
