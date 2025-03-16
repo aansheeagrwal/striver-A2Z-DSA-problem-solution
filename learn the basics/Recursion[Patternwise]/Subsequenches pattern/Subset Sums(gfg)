@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    void findSubsetSums(int index, int currentSum, vector<int>& arr, vector<int>& result) {
+        if (index == arr.size()) {  
+            result.push_back(currentSum);
+            return;
+        }
+
+        
+        findSubsetSums(index + 1, currentSum + arr[index], arr, result);
+
+        
+        findSubsetSums(index + 1, currentSum, arr, result);
+    }
+
+    vector<int> subsetSums(vector<int>& arr) {
+        vector<int> result;
+        findSubsetSums(0, 0, arr, result);
+        return result;
+    }
+};
