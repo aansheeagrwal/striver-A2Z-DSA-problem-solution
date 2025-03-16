@@ -1,0 +1,19 @@
+void SortedStack :: sort()
+{
+   stack<int> s1;
+   int x;
+   while(!s.empty()){
+           x=s.top();
+           s.pop();
+          while(!s1.empty() && x<s1.top()){
+               int y=s1.top();
+               s1.pop();
+               s.push(y);
+           }
+           s1.push(x);
+       }
+   while(!s1.empty()){
+       cout<<s1.top()<<" ";
+       s1.pop();
+   }
+}
