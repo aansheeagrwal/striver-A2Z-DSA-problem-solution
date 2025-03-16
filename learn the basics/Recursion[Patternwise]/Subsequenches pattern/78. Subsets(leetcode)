@@ -1,0 +1,62 @@
+class Solution {
+public:
+    void insert_at_bottom(stack<int> &st, int item) {
+        if (st.empty()) {
+            st.push(item);
+            return;
+        }
+        int temp = st.top();
+        st.pop();
+        insert_at_bottom(st, item);
+        st.push(temp);
+    }
+
+    void Reverse(stack<int> &st) {
+        if (st.empty()) {
+            return;
+        }
+        int temp = st.top();
+        st.pop();
+        Reverse(st);
+        insert_at_bottom(st, temp);
+    }
+    
+    void backtrack(vector<string> &result, string current, int open, int close, int n) {
+        if (current.length() == 2 * n) {
+            result.push_back(current);
+            return;
+        }
+        if (open < n) {
+            backtrack(result, current + "(", open + 1, close, n);
+        }
+        if (close < open) {
+            backtrack(result, current + ")", open, close + 1, n);
+        }
+    }
+    
+    vector<string> generateParenthesis(int n) {
+        vector<string> result;
+        backtrack(result, "", 0, 0, n);
+        return result;
+    }
+    
+    void subsetsHelper(vector<int>& nums, vector<vector<int>>& result, vector<int>& subset, int index) {
+        if (index == nums.size()) {
+            result.push_back(subset);
+            return;
+        }
+        
+        subsetsHelper(nums, result, subset, index + 1);
+        
+        subset.push_back(nums[index]);
+        subsetsHelper(nums, result, subset, index + 1);
+        subset.pop_back();
+    }
+    
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> result;
+        vector<int> subset;
+        subsetsHelper(nums, result, subset, 0);
+        return result;
+    }
+};
