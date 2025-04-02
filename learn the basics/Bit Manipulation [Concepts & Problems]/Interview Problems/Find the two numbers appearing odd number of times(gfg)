@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<long long int> twoOddNum(long long int Arr[], long long int N) {
+        long long int xor_all = 0, num1 = 0, num2 = 0;
+        
+        for (long long int i = 0; i < N; i++) {
+            xor_all ^= Arr[i];
+        }
+        
+        long long int set_bit = xor_all & -xor_all;
+        
+        for (long long int i = 0; i < N; i++) {
+            if (Arr[i] & set_bit)
+                num1 ^= Arr[i];
+            else
+                num2 ^= Arr[i];
+        }
+        
+        return {max(num1, num2), min(num1, num2)};
+    }
+};
