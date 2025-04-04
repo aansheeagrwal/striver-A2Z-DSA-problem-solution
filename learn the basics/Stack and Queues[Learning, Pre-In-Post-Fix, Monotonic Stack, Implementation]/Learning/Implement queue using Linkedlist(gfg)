@@ -1,0 +1,28 @@
+void MyQueue:: push(int x)
+{
+    QueueNode*temp=new QueueNode(x);
+    if(rear==NULL&&front==NULL){
+        rear=front=temp;
+    }
+    else{
+        rear->next=temp;
+        rear=temp;
+    }
+}
+
+int MyQueue :: pop()
+{
+    QueueNode*temp=front;
+    if(rear==NULL&&front==NULL){
+        return -1;
+    }
+    int data = front->data; 
+    front = front->next; 
+    
+    if (front == NULL) { 
+        rear = NULL;
+    }
+    
+    delete temp;
+    return data;
+}
