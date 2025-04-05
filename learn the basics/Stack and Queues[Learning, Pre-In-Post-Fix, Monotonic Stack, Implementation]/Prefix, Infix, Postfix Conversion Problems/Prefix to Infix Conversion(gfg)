@@ -1,1 +1,80 @@
+Ques:- You are given a string S of size N that represents the prefix form of a valid mathematical expression. The string S contains only lowercase and uppercase alphabets as operands and the operators are +, -, *, /, %, and ^.Convert it to its infix form.
 
+Example 1:
+
+Input: 
+*-A/BC-/AKL
+Output: 
+((A-(B/C))*((A/K)-L))
+Explanation: 
+The above output is its valid infix form.
+Your Task:
+Your task is to complete the function string preToInfix(string pre_exp), which takes a prefix string as input and return its infix form.
+
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(N).
+
+Constraints:
+3<=|S|<=104
+
+
+Step-by-Step Approach:
+
+(1) Initialize a stack of strings.
+(2) Traverse the prefix string from right to left.
+
+(3) For each character:
+
+If it’s an operand (a letter):
+➤ Push it as a string to the stack.
+
+If it’s an operator (+, -, *, /, %, ^):
+➤ Pop two elements from the stack (these are operands).
+➤ Combine them into: (operand1 operator operand2)
+➤ Push this new string back to the stack.
+
+At the end, the stack will contain the final infix expression.
+
+Example Dry Run:
+Input: *-A/BC-/AKL
+
+Process:
+Read L → push "L"
+Read K → push "K"
+Read A → push "A"
+Read / → pop A and K → form (A/K) → push
+Read - → pop (A/K) and L → form ((A/K)-L) → push
+Read C → push
+Read B → push
+Read / → pop B and C → (B/C) → push
+Read A → push
+Read - → pop A and (B/C) → (A-(B/C)) → push
+Read * → pop (A-(B/C)) and ((A/K)-L) → ((A-(B/C))*((A/K)-L))
+Output: ((A-(B/C))*((A/K)-L))
+
+*Now the the code of this problem are given below*
+
+class Solution {
+  public:
+    string preToInfix(string pre_exp) {
+        stack<string> st;
+
+        // Traverse from right to left
+        for(int i = pre_exp.length() - 1; i >= 0; i--) {
+            char c = pre_exp[i];
+
+            if(isalnum(c)) {
+                // Operand
+                st.push(string(1, c));
+            } else {
+                // Operator
+                string op1 = st.top(); st.pop();
+                string op2 = st.top(); st.pop();
+                string expr = "(" + op1 + c + op2 + ")";
+                st.push(expr);
+            }
+        }
+
+        return st.top(); // Final infix expression
+    }
+};
