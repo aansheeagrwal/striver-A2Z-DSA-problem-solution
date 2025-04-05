@@ -1,0 +1,91 @@
+Ques:- You are given a string that represents the postfix form of a valid mathematical expression. Convert it to its prefix form.
+
+Example 1:
+Input: ABC/-AK/L-*
+Output: *-A/BC-/AKL
+Explanation: The above output is its valid prefix form.
+
+Example 2:
+Input: ab+
+Output:+ab
+Explanation: The above output is its valid prefix form.
+
+Your Task:Complete the function string postToPre(string post_exp), which takes a postfix string as input and returns its prefix form.
+
+Expected Time Complexity: O(post_exp.length()).
+Expected Auxiliary Space: O(post_exp.length()).
+
+Constraints:3<=post_exp.length()<=16000
+
+Postfix vs Prefix:
+Postfix: operand1 operand2 operator
+→ Example: AB+ means A + B
+
+Prefix: operator operand1 operand2
+→ Example: +AB means A + B
+
+ Approach:
+  (1) Initialize a stack to store strings.
+
+  (2) Traverse the postfix expression from left to right.
+
+  (3) For each character:
+
+  (4) If it is an operand (alphabet or digit):
+     ➤ Push it to the stack.
+
+  (5) If it is an operator (+, -, *, /, %, ^):
+     ➤ Pop the top two elements from the stack (these are operand2 and operand1).
+     ➤ Combine as: operator + operand1 + operand2
+     ➤ Push the new string back to the stack.
+
+   (6) After the traversal, the stack will contain one element: the prefix expression.
+
+Example Dry Run:
+Input: ABC/-AK/L-*
+
+Steps:
+Push A
+Push B
+Push C
+Read / → pop C, B → form /BC → push
+Read - → pop /BC, A → form -A/BC → push
+
+Push A
+Push K
+Read / → pop K, A → form /AK → push
+Push L
+Read - → pop L, /AK → form -/AKL → push
+
+Read * → pop -/AKL, -A/BC → form *-A/BC-/AKL → result
+
+Output: *-A/BC-/AKL
+
+*Now the code of this problem are as given below*
+
+class Solution {
+  public:
+    string postToPre(string post_exp) {
+        stack<string> st;
+
+        for (char c : post_exp) {
+            if (isalnum(c)) {
+                
+                st.push(string(1, c));
+            } else {
+            
+                string op2 = st.top(); st.pop();
+                string op1 = st.top(); st.pop();
+                string expr = c + op1 + op2;
+                st.push(expr);
+            }
+        }
+
+        return st.top();
+    }
+};
+
+
+
+
+
