@@ -1,0 +1,78 @@
+Ques:- You are given a string that represents the postfix form of a valid mathematical expression. Convert it to its infix form.
+
+Example:
+Input: ab*c+ 
+Output: ((a*b)+c)
+Explanation: The above output is its valid infix form.
+
+Your Task:Complete the function string postToInfix(string post_exp), which takes a postfix string as input and returns its infix form.
+
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(N).
+
+Constraints:3<=post_exp.length()<=104
+
+Postfix vs Infix:
+Postfix: operand1 operand2 operator → e.g., ab+ means a + b
+Infix: operand1 operator operand2 → e.g., (a + b)
+
+Approach:
+(1) Initialize a stack to store strings.
+
+(2) Traverse the postfix expression from left to right.
+
+(3) For each character:
+
+(4) If it’s an operand (alphabet or digit), push it to the stack.
+
+(5) If it’s an operator, pop the top two elements from the stack:
+    ➤ Let op2 be the top element (popped first)
+    ➤ Let op1 be the next element
+    ➤ Form: ("(" + op1 + operator + op2 + ")")
+    ➤ Push this expression back onto the stack.
+
+(6) At the end, the stack will contain one element, which is the final infix expression.
+
+Dry Run:
+Input: ab*c+
+Steps:
+
+Push a
+
+Push b
+
+Read * → pop b, a → form (a*b) → push
+
+Push c
+
+Read + → pop c, (a*b) → form ((a*b)+c) → push
+
+Result: ((a*b)+c)
+
+*Now the code of this problem are as*
+
+class Solution {
+  public:
+    string postToInfix(string exp) {
+        stack<string> st;
+
+        for (char c : exp) {
+            if (isalnum(c)) {
+        
+                st.push(string(1, c));
+            } else {
+                
+                string op2 = st.top(); st.pop();
+                string op1 = st.top(); st.pop();
+                string expr = "(" + op1 + c + op2 + ")";
+                st.push(expr);
+            }
+        }
+
+        return st.top(); 
+    }
+};
+
+
+
+
