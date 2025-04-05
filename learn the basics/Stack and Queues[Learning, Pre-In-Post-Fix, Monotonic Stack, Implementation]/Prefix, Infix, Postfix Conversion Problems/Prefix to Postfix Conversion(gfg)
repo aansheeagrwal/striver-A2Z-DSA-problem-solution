@@ -1,0 +1,85 @@
+Ques:- You are given a string that represents the prefix form of a valid mathematical expression. Convert it to its postfix form.
+
+Example:
+Input: *-A/BC-/AKL
+
+Output: ABC/-AK/L-*
+
+Explanation: The above output is its valid postfix form.
+
+Your Task: Complete the function preToPost(string pre_exp), which takes a prefix string as input and returns its postfix form.
+
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(N).
+
+Constraints: 3<=pre_exp.length()<=100
+
+Solution:- To convert a prefix expression to a postfix expression, we can use a stack-based approach, similar to prefix-to-infix conversion.
+
+Prefix vs Postfix:
+Prefix: operator operand1 operand2
+→ e.g., + A B means A + B
+
+Postfix: operand1 operand2 operator
+→ e.g., A B +
+
+Approach:
+(1) Use a stack to hold partial expressions.
+
+(2) Traverse the prefix expression from right to left.
+
+(3) For each character:
+
+(4) If it is an operand (alphabet or digit):
+      ➤ Push it to the stack.
+
+(5) If it is an operator:
+      ➤ Pop the top two elements from the stack (these are the operands).
+      ➤ Combine them in the form: operand1 operand2 operator
+      ➤ Push the result back to the stack.
+
+(6) At the end, the stack will contain the full postfix expression.
+
+Example Dry Run:
+Input: *-A/BC-/AKL
+
+Process:
+Read L → push "L"
+Read K → push "K"
+Read A → push "A"
+Read / → pop A, K → combine: AK/ → push
+Read - → pop AK/, L → combine: AK/L- → push
+Read C → push
+Read B → push
+Read / → pop B, C → combine: BC/ → push
+Read A → push
+Read - → pop A, BC/ → combine: ABC/- → push
+Read * → pop ABC/-, AK/L- → combine: ABC/-AK/L-*
+Result: ABC/-AK/L-*
+
+*Now the code of this problem are as given below*
+
+class Solution {
+  public:
+    string preToPost(string pre_exp) {
+        stack<string> st;
+
+        // Traverse from right to left
+        for(int i = pre_exp.length() - 1; i >= 0; i--) {
+            char c = pre_exp[i];
+
+            if(isalnum(c)) {
+                // Operand
+                st.push(string(1, c));
+            } else {
+                // Operator
+                string op1 = st.top(); st.pop();
+                string op2 = st.top(); st.pop();
+                string expr = op1 + op2 + c;
+                st.push(expr);
+            }
+        }
+
+        return st.top(); // Final postfix expression
+    }
+};
