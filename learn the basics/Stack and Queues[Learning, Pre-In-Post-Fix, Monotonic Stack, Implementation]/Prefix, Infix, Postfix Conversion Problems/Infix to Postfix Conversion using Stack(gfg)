@@ -1,3 +1,43 @@
+Examples :
+Input: s = "a+b*(c^d-e)^(f+g*h)-i"
+Output: abcd^e-fgh*+^*+i-
+Explanation: After converting the infix expression into postfix expression, the resultant expression will be abcd^e-fgh*+^*+i-
+Input: s = "A*(B+C)/D"
+Output: ABC+*D/
+Explanation: After converting the infix expression into postfix expression, the resultant expression will be ABC+*D/
+Input: s = "(a+b)*(c+d)"
+Output: ab+cd+*
+Constraints:
+1 ≤ s.length ≤ 30
+
+Example:
+Input: "A*(B+C)/D"
+
+Steps: the given (10) steps of following input are as given below;
+
+(1) A → operand → result = "A"
+
+(2) * → stack = [*]
+
+(3) ( → stack = [* (]
+
+(4) B → result = "AB"
+
+(5) + → stack = [* ( +]
+
+(6) C → result = "ABC"
+
+(7) ) → pop + → result = "ABC+", pop ( → stack = [*]
+
+(8) / → * has equal precedence, so pop * → result = "ABC+*", push / → stack = [/]
+
+(9) D → result = "ABC+*D"
+
+(10) End → pop / → result = "ABC+*D/"
+
+Output: "ABC+*D/"
+
+*Now  the following code of this problem are as given below*
 
 class Solution {
   public:
