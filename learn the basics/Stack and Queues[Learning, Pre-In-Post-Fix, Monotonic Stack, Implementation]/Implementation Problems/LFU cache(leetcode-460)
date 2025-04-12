@@ -1,0 +1,85 @@
+#include <iostream>
+#include <unordered_map>
+#include <map>
+#include <list>
+using namespace std;
+
+class LFUCache {
+    int capacity;
+    int minFreq;
+
+    
+    unordered_map<int, pair<int, int>> keyToValFreq;
+
+    
+    map<int, list<int>> freqToKeys;
+
+    
+    unordered_map<int, list<int>::iterator> keyToIter;
+
+public:
+    LFUCache(int capacity) {
+        this->capacity = capacity;
+        minFreq = 0;
+    }
+
+    int get(int key) {
+        if (keyToValFreq.find(key) == keyToValFreq.end()) {
+            return -1; 
+        }
+
+        
+        int val = keyToValFreq[key].first;
+        int freq = keyToValFreq[key].second;
+
+        
+        freqToKeys[freq].erase(keyToIter[key]);
+
+        
+        if (freqToKeys[freq].empty()) {
+            freqToKeys.erase(freq);
+            if (minFreq == freq)
+                minFreq++;
+        }
+
+        
+        freqToKeys[freq + 1].push_front(key);
+        keyToIter[key] = freqToKeys[freq + 1].begin();
+
+        
+        keyToValFreq[key].second = freq + 1;
+
+        return val;
+    }
+
+    void put(int key, int value) {
+        if (capacity == 0)
+            return;
+
+        
+        if (keyToValFreq.find(key) != keyToValFreq.end()) {
+            keyToValFreq[key].first = value;
+            get(key); 
+            return;
+        }
+
+        
+        if (keyToValFreq.size() >= capacity) {
+            int keyToRemove = freqToKeys[minFreq].back(); 
+            freqToKeys[minFreq].pop_back();
+
+            if (freqToKeys[minFreq].empty()) {
+                freqToKeys.erase(minFreq);
+            }
+
+            keyToValFreq.erase(keyToRemove);
+            keyToIter.erase(keyToRemove);
+        }
+
+        
+        keyToValFreq[key] = {value, 1};
+        freqToKeys[1].push_front(key);
+        keyToIter[key] = freqToKeys[1].begin();
+        minFreq = 1; 
+    }
+};
