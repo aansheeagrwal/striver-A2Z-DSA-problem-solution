@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        unordered_map<int, int> prefixCount;
+        prefixCount[0] = 1;  
+
+        int currOdd = 0;
+        int result = 0;
+
+        for (int num : nums) {
+            if (num % 2 == 1) {
+                currOdd++; 
+            }
+
+        
+            if (prefixCount.find(currOdd - k) != prefixCount.end()) {
+                result += prefixCount[currOdd - k];
+            }
+
+            
+            prefixCount[currOdd]++;
+        }
+
+        return result;
+    }
+};
